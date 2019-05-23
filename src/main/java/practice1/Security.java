@@ -12,7 +12,6 @@ public class Security {
 
     public boolean hasAccess(User user, Permission permission, ImmutableList<Permission> permissions) {
 
-        boolean isAccess = false;
         if (user == null)
             return false;
 
@@ -23,13 +22,13 @@ public class Security {
             return false;
 
         if (securityChecker.isAdmin()) {
-            isAccess = true;
+            return true;
         }
 
         if (this.securityChecker.checkPermission(user, permission) || permissions.contains(permission)) {
-            isAccess = true;
+            return true;
         }
 
-        return isAccess;
+        return false;
     }
 }
