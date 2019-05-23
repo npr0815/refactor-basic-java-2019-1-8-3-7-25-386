@@ -1,8 +1,14 @@
 package practice1;
 
+import com.google.common.collect.ImmutableList;
+
 public class SecurityChecker {
-    public  boolean checkPermission(User user, Permission permission) {
-        //todo code
+    private ImmutableList<Permission> permissions;
+
+    public boolean checkPermission(User user, Permission permission) {
+        if (permission != null)
+            //permissions = ImmutableList.<Permission>builder().add(permission).build();
+            return true;
         return false;
     }
 
