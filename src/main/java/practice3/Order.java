@@ -8,6 +8,7 @@ public class Order {
     private List<OrderLineItem> orderLineItemList;
     private List<BigDecimal> discounts;
     private BigDecimal tax;
+    private BigDecimal subTotal;
 
     public Order(List<OrderLineItem> orderLineItemList, List<BigDecimal> discounts) {
         this.orderLineItemList = orderLineItemList;
@@ -16,24 +17,40 @@ public class Order {
     }
 
     public BigDecimal calculate() {
-        BigDecimal subTotal = new BigDecimal(0);
+        subTotal = new BigDecimal(0);
 
         // Total up line items
+        totalUpLineItems();
+
+        // Subtract discounts
+        subtractDiscounts();
+
+        // calculate tax
+        BigDecimal tax = calculateTax();
+
+        // calculate GrandTotal
+        BigDecimal grandTotal = calculateGrandTotal(tax);
+
+        return grandTotal;
+    }
+
+    public void totalUpLineItems(){
         for (OrderLineItem lineItem : orderLineItemList) {
             subTotal = subTotal.add(lineItem.getPrice());
         }
+    }
 
-        // Subtract discounts
+    public void subtractDiscounts(){
         for (BigDecimal discount : discounts) {
             subTotal = subTotal.subtract(discount);
         }
+    }
 
-        // calculate tax
-        BigDecimal tax = subTotal.multiply(this.tax);
+    public BigDecimal calculateTax(){
+        return subTotal.multiply(this.tax);
+    }
 
-        // calculate GrandTotal
-        BigDecimal grandTotal = subTotal.add(tax);
-
-        return grandTotal;
+    public BigDecimal calculateGrandTotal(BigDecimal tax){
+        return subTotal.add(tax);
     }
 }
